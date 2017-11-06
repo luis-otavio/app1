@@ -2,13 +2,14 @@ var app = angular.module('CrudApp', ['ngCookies']);
 
 app.controller('CrudController', function($scope, $http, $cookies){
 	// chama API para consulta no banco de dados e atualiza tabela na camada view	
-	$scope.logar = function(){
-		$http.post('http://localhost:3000/login', $scope.login)
+	$scope.login = function(){
+		$http.post('http://localhost:3000/logar', $scope.x)
 		.then(function (response){
 			// response.data contém resultado do select
 			if (response.data == 1){
 				$cookies.put('usuario', $scope.login.email);
-				window.location.href = "http://127.0.0.1:8080/crudAluga.html";
+				alert("eu");
+				window.location.href = "/crudAluga";
 			}
 			else {	
 				alert("Usuário/Senha inválida");	
@@ -35,7 +36,7 @@ app.controller('CrudController', function($scope, $http, $cookies){
 				// response.data contém resultado do select
 				$scope.listaCarros = response.data;	
 				$scope.usuario = $cookies.get('usuario');
-				alert(usuario);		
+				alert($scope.usuario);		
 		});
 	};
 	// chama API para consulta no banco de dados e atualiza tabela na camada view	

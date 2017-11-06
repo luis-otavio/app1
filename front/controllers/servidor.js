@@ -100,7 +100,7 @@ app.get('/consulta/:email', function (req, res){
 		if (erro){ // ocorreu um erro
 			return console.error('erro ao conectar no banco', erro);
 		}
-		var sql = 'select * from tb_carro where email = \'' + req.params.email + '\'';
+		var sql = 'select * from tb_usuario where email = \'' + req.params.email + '\'';
 		console.log(sql);
 		conexao.query(sql, function(erro, resultado){
 			feito(); // libera a conexão

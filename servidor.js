@@ -47,7 +47,7 @@ app.get('/crud',function(req,res){
     } 
 });
 
-app.get('/crudAlugaa',function(req,res){
+app.get('/crudAluga',function(req,res){
     sess=req.session;
     if (sess.email){
     	res.render('crudAluga.html');
@@ -58,7 +58,9 @@ app.get('/crudAlugaa',function(req,res){
 });
 // cria rota para consulta em uma tabela do banco de dados
 app.post('/logar', function (req, res){
+	console.log(" " + req.body.email);
 	sess=req.session;
+	console.log(" " + req.body.email);
 	// conecta no banco a partir do canal
 	canal.connect(function(erro, conexao, feito){
 		if (erro){ // ocorreu um erro
@@ -100,7 +102,7 @@ app.get('/consulta/:email', function (req, res){
 		if (erro){ // ocorreu um erro
 			return console.error('erro ao conectar no banco', erro);
 		}
-		var sql = 'select * from tb_carro where email = \'' + req.params.email + '\'';
+		var sql = 'select * from tb_usuario where email = \'' + req.params.email + '\'';
 		console.log(sql);
 		conexao.query(sql, function(erro, resultado){
 			feito(); // libera a conexão
