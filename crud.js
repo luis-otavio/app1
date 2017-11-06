@@ -3,7 +3,7 @@ var app = angular.module('CrudApp', ['ngCookies']);
 app.controller('CrudController', function($scope, $http, $cookies){
 	// chama API para consulta no banco de dados e atualiza tabela na camada view	
 	$scope.logar = function(){
-		$http.post('http://localhost:3000/logar', $scope.login)
+		$http.post('http://localhost:3000/login', $scope.login)
 		.then(function (response){
 			// response.data contém resultado do select
 			if (response.data == 1){
@@ -16,7 +16,7 @@ app.controller('CrudController', function($scope, $http, $cookies){
 		});
 	};
 	$scope.registra = function(){
-		$http.post('http://localhost:3000/registra', $scope.cadastra)
+		$http.post('http://localhost:3000/cadastra', $scope.cadastra)
 		.then(function (response){
 			// response.data contém resultado do select
 			if (response.data == 1){
