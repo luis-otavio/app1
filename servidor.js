@@ -2,7 +2,9 @@ var express = require('express')
 // lidando com session
 var session = require('express-session')
 var app = express()
+
 var bodyParser = require('body-parser')
+
 var core_use = require('cors');
 var pg = require('pg');
 app.engine('html', require('ejs').renderFile);
@@ -11,6 +13,7 @@ app.set('view engine', 'html');
 app.use('/front',express.static(__dirname + '/front'));
 app.use(core_use());
 app.use(session({secret: 'ssshhhhh', resave: true, saveUninitialized: true}));
+
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
@@ -58,9 +61,7 @@ app.get('/crudAluga',function(req,res){
 });
 // cria rota para consulta em uma tabela do banco de dados
 app.post('/logar', function (req, res){
-	console.log(" " + req.body.email);
 	sess=req.session;
-	console.log(" " + req.body.email);
 	// conecta no banco a partir do canal
 	canal.connect(function(erro, conexao, feito){
 		if (erro){ // ocorreu um erro
@@ -81,6 +82,26 @@ app.post('/logar', function (req, res){
 			res.json(conta); // retorna ao cliente as linhas do select
 		});
 	});
+});
+app.post('/cadastrar', function (req, res){
+	canal.connect(function(erro, conexao, feito){
+		if (erro){
+			return console.error('erro ao conectar no banco', erro);
+		}
+		var sql = 'insert into tb_usuario values (\'' + req.body.nome + 
+				  '\',' + req.body.cpf + 
+				  ',\'' + req.body.email + 
+				  '\',' + req.body.senha +
+				  ')';
+		console.log(sql);
+		conexao.query(sql, function(erro, resultado){
+			feito(); // libera a conexão
+			if (erro){
+				return console.error('Erro nao cadastro de usuario', erro);
+			}
+			res.json(resultado.rows); // retorna ao cliente o resultado da inserção
+		});
+	})
 });
 app.get('/logout',function(req,res){
 	
@@ -121,7 +142,7 @@ app.get('/consultaCompra', function (req, res){
 		}
 		var sql = 'select a.*,c.carro from tb_aluga a '
 			sql += 'inner join tb_carro c on(a.placa = c.placa) '
-			sql += 'order by a.nome';
+			sql += 'order by a.cod_aluga';
 		conexao.query(sql, function(erro, resultado){
 			feito(); // libera a conexão
 			if (erro){

@@ -8,7 +8,6 @@ app.controller('CrudController', function($scope, $http, $cookies){
 			// response.data contém resultado do select
 			if (response.data == 1){
 				$cookies.put('usuario', $scope.login.email);
-				alert("eu");
 				window.location.href = "/crudAluga";
 			}
 			else {	
@@ -35,8 +34,7 @@ app.controller('CrudController', function($scope, $http, $cookies){
 		.then(function (response){
 				// response.data contém resultado do select
 				$scope.listaCarros = response.data;	
-				$scope.usuario = $cookies.get('usuario');
-				alert($scope.usuario);		
+				$scope.usuario = $cookies.get('usuario');		
 		});
 	};
 	// chama API para consulta no banco de dados e atualiza tabela na camada view	
@@ -111,11 +109,10 @@ app.controller('CrudController', function($scope, $http, $cookies){
 	$scope.preparaAtualizacaoCompra = function(placa){
 		var posicao = retornaIndiceCompra(placa);
 		$scope.aluga = {
-			'nome' : $scope.listaAluga[posicao].nome,
-			'telefone': $scope.listaAluga[posicao].telefone,
 			'placa': $scope.listaAluga[posicao].placa,
+			'carro': $scope.listaAluga[posicao].carro,
 			'dia': $scope.listaAluga[posicao].dia,
-			'carro': $scope.listaAluga[posicao].carro
+			'preco': $scope.listaAluga[posicao].preco
 		};
 	}
 	// função que retorna a posição de um carro pela placa
@@ -149,7 +146,6 @@ app.controller('CrudController', function($scope, $http, $cookies){
 	}
 	// chama API - atualiza o banco de dados e atualiza tabela
 	$scope.atualizaCompra = function(){
-		alert("entrou ");
 		//alert($scope.aluga.carro)
 		$http.put('http://localhost:3000/atualizaCompra', $scope.aluga)
 		.then(function (response){
@@ -158,4 +154,5 @@ app.controller('CrudController', function($scope, $http, $cookies){
 		}
 		);
 	}
+
 });
