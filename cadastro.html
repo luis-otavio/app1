@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <html>
 <!DOCTYPE>
 <html ng-app="CrudApp">
@@ -206,4 +207,214 @@
         </div>
 		</div>
 	</body>
+=======
+<html>
+<!DOCTYPE>
+<html ng-app="CrudApp">
+	<head>
+		<meta charset="utf-8"/>
+		<title> AlugaCar - Cadastro de Veículos </title>
+		<!-- bootstrap -->
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<!-- bootstrap -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+		<!-- bootstrap -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+		<!-- bootstrap -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+		<!-- Angular -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
+		<!-- Angular -->
+		<script src="crud.js"> </script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular-cookies.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="css/estilo.css"/>
+		<style type="text/css">
+			body{
+				background-color: #F5F5F5;
+				background-image: none;
+			}
+		</style>
+	</head>
+	<body ng-controller="CrudController">
+		<nav class="navbar navbar-dark bg-info">
+	  		<a class="navbar-brand" style="color: black; font-family: Magneto; font-size: 25" href="index.html">AlugaCar</a>
+	  		<div align="right" class="col-sm-10">
+		  		<a href="/Users/luiso/Desktop/app1/login.html" class="btn btn-info" role="button">Login</a>
+		  		<a href="/Users/luiso/Desktop/app1/login.html" class="btn btn-info" role="button">Cadastre-se</a>
+		  	</div>
+  			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    		<span class="navbar-toggler-icon"></span>
+  			</button>
+
+  			<div class="collapse navbar-collapse" id="navbarNav">
+    			<ul class="navbar-nav">
+    				<li class="nav-item">
+        				<a class="nav-link" href="/Users/luiso/Desktop/app1/index.html">Home<span class="sr-only">(current)</span></a>
+      				</li>
+      				<li class="nav-item active">
+        				<a class="nav-link" href="C:/Users/luiso/Desktop/app1/crud.html">Cadastrar<span class="sr-only">(current)</span></a>
+      				</li>
+      				<li class="nav-item">
+       					<a class="nav-link" href="C:/Users/luiso/Desktop/app1/crudAluga.html">Alugar<span class="sr-only">(current)</span></a>
+      				</li>
+      				<li class="nav-item">
+       					 <a class="nav-link" href="#">Contato<span class="sr-only">(current)</span></a>
+  					</li>
+				</ul>
+			</div>
+		</nav><p>
+		<div class="col-md-12" data-ng-init="consulta()">
+			<div class="container">
+            <form class="form-horizontal" role="form">
+                <div class="form-row">
+                	<label>
+                		<h2 style="text-align: right;">Cadastrar</h2><br/>
+                	</label>
+                </div><p/>
+                <div class="form-row">
+                	<label class="control-label col-md-12">
+                		<div class="col-md-8">
+                			<h5 style="text-align: center;"> Dados pessoais </h5><br/>
+                		</div>
+                	</label> 
+                </div>
+                <div class="form-row">
+                    <label for="name" class="col-md-2 control-label"> 
+                    	<h6> Nome Completo </h6>
+                    </label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" ng-model="cadastro.nome">
+                    </div>
+                </div><p/>
+                <div class="form-row">
+                    <label for="cpf" class="col-md-2 control-label"> 
+                    	<h6> CPF </h6>
+                    </label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" ng-model="cadastro.cpf">
+                    </div>
+                </div><p/>	
+                <div class="form-row">
+                    <label for="email" class="col-md-2 control-label">
+                    	<h6> E-mail </h6>
+                    </label>
+                    <div class="col-md-3">
+                        <input type="email" class="form-control" ng-model="cadastro.email">
+                    </div>
+                </div><p/>
+                <div class="form-row">
+                    <label for="password" class="col-md-2 control-label">
+                    	<h6> Senha </h6>
+                    </label>
+                    <div class="col-md-3">
+                        <input type="password" class="form-control" ng-model="cadastro.senha">
+                    </div>
+                </div><p/>
+                <div class="form-row">
+                    <label for="password" class="col-md-2 control-label">
+                    	<h6> Digite novamente </h6>
+                    </label>
+                    <div class="col-md-3">
+                        <input type="password" class="form-control" ng-model="cadastro.senha">
+                    </div>
+                </div><p/>
+                <div class="form-row">
+                    <label for="birthDate" class="col-md-2 control-label">
+                    	<h6> Data de Nascimento </h6>
+                    </label>
+                    <div class="col-md-2">
+                        <input type="date" class="form-control" ng-model="cadastro.dataNasc">
+                    </div>
+                </div><p/>
+                <div class="form-row">
+                    <label class="control-label col-md-2">
+                    	<h6> Gênero </h6>
+                    </label>
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="radio-inline">
+                                    <input type="radio" id="femaleRadio" value="Feminino" ng-model="cadastro.genero"> 
+                                    	Feminino
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="radio-inline">
+                                    <input type="radio" id="maleRadio" value="Masculino" ng-model="cadastro.genero"> 
+                                    	Masculino
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div><br/>
+                <div class="form-row">
+                    <label class="control-label col-md-12">
+                        <div class="col-md-8">
+                            <h5 style="text-align: center;"> Endereço </h5><br/>
+                        </div>
+                    </label> 
+                </div>
+                <div class="form-row">
+                    <label for="rua" class="col-md-2 control-label"> 
+                        <h6> Rua </h6>
+                    </label>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" ng-model="cadastro.rua">
+                    </div>
+                <p/>
+                    <label for="name" class="col-md-2 control-label"> 
+                        <h6> Número </h6>
+                    </label>
+                    <div class="col-md-1">
+                        <input type="text" class="form-control" ng-model="cadastro.numero">
+                    </div>
+                </div><p/>
+                <div class="form-row">
+                    <label for="bairro" class="col-md-2 control-label"> 
+                        <h6> Bairro </h6>
+                    </label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" ng-model="cadastro.bairro">
+                    </div>
+                    <label for="cidade" class="col-md-2 control-label"> 
+                        <h6> CEP </h6>
+                    </label>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control" ng-model="cadastro.cep">
+                    </div>
+                </div><p/>
+                <div class="form-row">
+                    <label for="cidade" class="col-md-2 control-label"> 
+                        <h6> Cidade </h6>
+                    </label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control" ng-model="cadastro.cidade">
+                    </div>
+                    <label for="cidade" class="col-md-2 control-label"> 
+                        <h6> Estado </h6>
+                    </label>
+                    <div class="col-md-2">
+                        <input type="text" class="form-control" ng-model="cadastro.estado">
+                    </div>
+                </div><p/>
+                <div class="form-row">
+                    <div class="col-md-6 col-md-offset-6">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" ng-model="cadastro.aceito"> Eu aceito os <a href="#">termos de locação</a>
+                            </label>
+                        </div>
+                    </div>
+                </div><br/>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary btn-block" ng-click="registra()">Registrar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+		</div>
+	</body>
+>>>>>>> 56f8701dd828ca0dc5ecd1616e35fa04e623109e
 </html>
