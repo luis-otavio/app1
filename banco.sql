@@ -38,11 +38,11 @@ SELECT NEXTVAL('aluga_id_seq');
 CREATE TABLE tb_aluga(
 cod_aluga	INTEGER DEFAULT NEXTVAL('aluga_id_seq'),
 email		VARCHAR(50),
-placa		VARCHAR(8),
+cod_carro	INTEGER,
 dia		INTEGER,
 CONSTRAINT pk_cod_aluga PRIMARY KEY (cod_aluga),
 CONSTRAINT fk_email_usuario FOREIGN KEY (email) REFERENCES tb_usuario(email),
-CONSTRAINT fk_car_placa FOREIGN KEY(placa) REFERENCES tb_carro(placa)
+CONSTRAINT fk_car_cod_carro FOREIGN KEY(cod_carro) REFERENCES tb_carro(cod_carro)
 );
 
 SELECT *
@@ -51,9 +51,9 @@ FROM tb_aluga;
 
 
 
-INSERT INTO tb_aluga(email, placa, dia) 
+INSERT INTO tb_aluga
 VALUES
-('vc@vc.com.br', 'ABC1234', 50);
+(default, 'vc@vc.com.br', 3, 5);
 
 CREATE TABLE tb_usuario(
 nome		VARCHAR(60) CONSTRAINT nn_nome_usuario NOT NULL,
