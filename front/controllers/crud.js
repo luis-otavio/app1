@@ -7,7 +7,9 @@ app.controller('CrudController', function($scope, $http, $cookies){
 		.then(function (response){
 			// response.data contém resultado do select
 			if (response.data == 1){
-				$cookies.put('usuario', $scope.login.email);
+				
+				$cookies.put('usuario', $scope.x.email);
+				
 				window.location.href = "/crudAluga";
 			}
 			else {	
@@ -15,13 +17,13 @@ app.controller('CrudController', function($scope, $http, $cookies){
 			}	
 		});
 	};
-	$scope.registra = function(){
-		$http.post('http://localhost:3000/cadastra', $scope.cadastra)
+	$scope.cadastro = function(){
+		$http.post('http://localhost:3000/cadastro', $scope.cadastra)
 		.then(function (response){
 			// response.data contém resultado do select
 			if (response.data == 1){
 				$cookies.put('usuario', $scope.login.email);
-				window.location.href = "http://127.0.0.1:8080/crudAluga.html";
+				window.location.href = "/crud.html";
 			}
 			else {	
 				alert("Usuário/Senha inválida");	
@@ -30,7 +32,7 @@ app.controller('CrudController', function($scope, $http, $cookies){
 	};
 	// chama API para consulta no banco de dados e atualiza tabela na camada view	
 	var atualizaTabelaCarro = function(){
-		$http.get('http://localhost:3000/consulta/'+$cookies.get('usuario'))
+		$http.get('http://localhost:3000/consulta')
 		.then(function (response){
 				// response.data contém resultado do select
 				$scope.listaCarros = response.data;	
@@ -39,10 +41,12 @@ app.controller('CrudController', function($scope, $http, $cookies){
 	};
 	// chama API para consulta no banco de dados e atualiza tabela na camada view	
 	var atualizaTabelaCompra = function(){
-		$http.get('http://localhost:3000/consultaCompra')
+		var email = $cookies.get('usuario');
+		$http.get('http://localhost:3000/consultaCompra/'+email)
 		.then(function (response){
 				// response.data contém resultado do select
-				$scope.listaAluga = response.data;			
+				$scope.listaAluga = response.data;
+				$scope.usuario = $cookies.get('usuario');		
 		});
 	};
 	// chama função atualizaTabela
@@ -63,8 +67,10 @@ app.controller('CrudController', function($scope, $http, $cookies){
 		}
 		);
 	}
+
 	// chama API - insere no banco de dados e atualiza tabela
 	$scope.insereCompra = function(){
+		$scope.aluga.email = $cookies.get('usuario');
 		$http.post('http://localhost:3000/insereCompra', $scope.aluga)
 		.then(function (response){
 				atualizaTabelaCompra();
@@ -73,10 +79,10 @@ app.controller('CrudController', function($scope, $http, $cookies){
 		);
 	}
 	// chama API - remove do banco de dados e atualiza tabela
-	$scope.remove = function(placa){
-		var resposta = confirm("Confirma a exclusão do carro com placa " + placa + "?");
+	$scope.remove = function(cod_carro){
+		var resposta = confirm("Confirma a exclusão do carro com código " + cod_carro + "?");
 		if (resposta == true){
-			$http.delete('http://localhost:3000/remove/' + placa)
+			$http.delete('http://localhost:3000/remove/' + cod_carro)
 			.then(function (response){
 				atualizaTabelaCarro();
 				alert("Remoção com sucesso");
@@ -85,10 +91,10 @@ app.controller('CrudController', function($scope, $http, $cookies){
 		}
 	}
 	// chama API - remove do banco de dados e atualiza tabela
-	$scope.removeCompra = function(placa){
+	$scope.removeCompra = function(cod_carro){
 		var resposta = confirm("Confirma a exclusão deste carro?");
 		if (resposta == true){
-			$http.delete('http://localhost:3000/removeCompra/' + placa)
+			$http.delete('http://localhost:3000/removeCompra/' + cod_carro)
 			.then(function (response){
 				atualizaTabelaCompra();
 				alert("Remoção com sucesso");
@@ -97,39 +103,40 @@ app.controller('CrudController', function($scope, $http, $cookies){
 		}
 	}
 	// coloca o carro para edição
-	$scope.preparaAtualizacao = function(placa){
-		var posicao = retornaIndice(placa);
+	$scope.preparaAtualizacao = function(cod_carro){
+		var posicao = retornaIndice(cod_carro);
 		$scope.carro = {
-			'placa': $scope.listaCarros[posicao].placa,
+			'cod_carro': $scope.listaCarros[posicao].cod_,
 			'carro': $scope.listaCarros[posicao].carro,
 			'diaria': parseFloat($scope.listaCarros[posicao].diaria)
 		};
 	}
 	// coloca o aluguel para edição
-	$scope.preparaAtualizacaoCompra = function(placa){
-		var posicao = retornaIndiceCompra(placa);
+	$scope.preparaAtualizacaoCompra = function(cod_carro){
+		var posicao = retornaIndiceCompra(cod_carro);
 		$scope.aluga = {
-			'placa': $scope.listaAluga[posicao].placa,
+			'cod_carro': $scope.listaAluga[posicao].cod_aluga,
 			'carro': $scope.listaAluga[posicao].carro,
 			'dia': $scope.listaAluga[posicao].dia,
 			'preco': $scope.listaAluga[posicao].preco
 		};
 	}
-	// função que retorna a posição de um carro pela placa
-	function retornaIndice(placa){
+	// função que retorna a posição de um carro pela cod_carro
+	function retornaIndice(cod_carro){
 		var i;
 		for (i=0;i<$scope.listaCarros.length;i++){
-			if ($scope.listaCarros[i].placa == placa){
+			if ($scope.listaCarros[i].cod_carro == cod_carro){
 				return i; // retorna posição do carro desejado
 			}
 		}
 		return -1;
 	}
 	// função que retorna a posição de um aluguel pelo seu código 
-	function retornaIndiceCompra(placa){
+	function retornaIndiceCompra(cod_carro){
+
 		var i;
 		for (i=0;i<$scope.listaAluga.length;i++){
-			if ($scope.listaAluga[i].placa == placa){
+			if ($scope.listaAluga[i].cod_carro == cod_carro){
 				return i; // retorna posição do aluguel desejado
 			}
 		}

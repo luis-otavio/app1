@@ -14,15 +14,9 @@
 	}
 	body{ 
 		background-color: #F5F5F5;
-		background-image: url(/imagens/car1.png);
+		background-image: url(/front/imagens/car1.png);
 		background-position: bottom center;
+		background-attachment: scroll;
 		background-repeat: no-repeat;
 		font-family: Verdana;
-	}
-
-	.scroll {
-		width: 96%;
-		height: 200%;
-	    overflow-y: scroll;
-	    position: absolute;
 	}

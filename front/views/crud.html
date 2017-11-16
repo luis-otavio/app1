@@ -20,13 +20,17 @@
 		<!-- Angular -->
 		<script src="/front/controllers/crud.js"> </script>
 		<link rel="stylesheet" type="text/css" href="/front/css/estilo.css"/>	
+		<style type="text/css">
+			th{
+				text-align: center;"
+			}
+		</style>
 	</head>
 	<body ng-controller="CrudController">
 		<nav class="navbar navbar-dark bg-info">
   		<a class="navbar-brand" style="color: black; font-family: Magneto; font-size: 25" href="index.html">AlugaCar</a>
   		<div align="right" class="col-sm-10">
-	  		<a href="/login" class="btn btn-info" role="button">Login</a>
-	  		<a href="/cadastro" class="btn btn-info" role="button">Cadastre-se</a>
+	  		<a href="/logout" class="badge badge-sm badge-dark" role="button">Logout</a>
 	  	</div>
   			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     		<span class="navbar-toggler-icon"></span>
@@ -45,37 +49,39 @@
       				</li>
       				<li class="nav-item">
        					 <a class="nav-link" href="#">Contato<span class="sr-only">(current)</span></a>
-      					</li>
-    				</ul>
+      				</li>
+    			</ul>
     				
-				</div>
-			</nav><p>
-		<div style="float:left;" class="col-md-6" data-ng-init="consulta()">
-			<h2 align="center" > Informações do carro </h2><br>
-				<table class="table table-striped text-center rounded">
-					<thead >
-						<tr class="table-active" style="background-color: black; font-family: Consolas; font-size: 20; text-align: center; color: white" >
-							<th> Placa do Veículo </th> 
-							<th> Carro </th> 
-							<th> Diária </th>
-							<th> Editar </th>
-							<th> Remover </th>
-						</tr>
-					</thead>
-					<tbody class="scroll">
-						<tr ng-repeat="carro in listaCarros" style="font-family: Consolas; font-size: 18">
-							<td> {{carro.placa}} </td>
-							<td> {{carro.carro}} </td>
-							<td> {{carro.diaria}} </td>
-							<td> <a href="#" 
-									ng-click="preparaAtualizacao(carro.placa)">  
-								<button type="button" class="badge badge-pill badge-dark">Editar</button> </a> </td>
-							<td> <a href="#" ng-click="remove(carro.placa)">  
-								<button type="button" class="badge badge-pill badge-dark">Remover</button> </a> 
-							</td> 
-						</tr>
-					</tbody>	
-				</table>
+			</div>
+		</nav><p>
+	<div style="float:left;" class="col-md-6" data-ng-init="consulta()">
+		<h2 align="center" > Informações do carro </h2><br>
+			<table class="table table-striped text-center rounded">
+				<thead >
+					<tr class="table-active" style="background-color: black; font-family: Consolas; font-size: 20; color: white" >
+						<th> Código </th> 
+						<th> Carro </th> 
+						<th> Qtde </th>
+						<th> Diária </th>
+						<th> Editar </th>
+						<th> Remover </th>
+					</tr>
+				</thead>
+				<tbody class="scroll">
+					<tr ng-repeat="carro in listaCarros" style="font-family: Consolas; font-size: 18">
+						<td> {{carro.cod_carro}} </td>
+						<td> {{carro.carro}} </td>
+						<td> {{carro.qtde}}
+						<td> {{carro.diaria}} </td>
+						<td> <a href="#" 
+								ng-click="preparaAtualizacao(carro.cod_carro)">  
+							<button type="button" class="badge badge-pill badge-dark">Editar</button> </a> </td>
+						<td> <a href="#" ng-click="remove(carro.cod_carro)">  
+							<button type="button" class="badge badge-pill badge-dark">Remover</button> </a> 
+						</td> 
+					</tr>
+				</tbody>	
+			</table>
 		</div>
 		<div class="row">
 		<div class="container col-sm-12" align="center">
@@ -90,16 +96,15 @@
 			</p>
 			<form class="form-horizontal">
 				<div class="form-row">
-					
-					<label class="control-label col-sm-4"> <h5>Placa</h5> </label>
-					<div class="col-sm-6"> 
-						<input type="text" class="form-control" ng-model="carro.placa"/>
-					</div>
-				</div><p/>
-				<div class="form-row">
 					<label class="control-label col-sm-4"> <h5>Carro</h5> </label>
 					<div class="col-sm-6"> 
 						<input type="text" class="form-control" ng-model="carro.carro"/>
+					</div>
+				</div><p/>
+				<div class="form-row">
+					<label class="control-label col-sm-4"> <h5>Quantidade</h5> </label>
+					<div class="col-sm-6"> 
+						<input type="number" class="form-control" ng-model="carro.qtde"/>
 					</div>
 				</div><p/>
 				<div class="form-row">

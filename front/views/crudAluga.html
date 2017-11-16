@@ -18,14 +18,18 @@
 
 		<!-- Angular -->
 		<script src="/front/controllers/crud.js"> </script>
-		<link rel="stylesheet" type="text/css" href="/front/css/estilo.css"/>	
+		<link rel="stylesheet" type="text/css" href="/front/css/estilo.css"/>
+		<style type="text/css">
+			#body{
+				background-image: none;
+			}
+		</style>
 	</head>
 	<body ng-controller="CrudController">
 		<nav class="navbar navbar-dark bg-info">
-  		<a class="navbar-brand" style="color: black; font-family: Magneto; font-size: 25" href="index.html">AlugaCar</a>
-  		<div align="right" class="col-sm-9">
-	  		<a href="/login" class="btn btn-info" role="button">Login</a>
-	  		<a href="/cadastro" class="btn btn-info" role="button">Cadastre-se</a>
+  		<a class="navbar-brand" style="color: black; font-family: Magneto; font-size: 25" href="#">AlugaCar</a>
+  		<div align="right" class="col-sm-10">
+	  		<a href="/logout" class="badge badge- badge-dark" role="button">Logout</a>
 	  	</div>
   			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     		<span class="navbar-toggler-icon"></span>
@@ -45,9 +49,7 @@
       				<li class="nav-item">
        					 <a class="nav-link" href="#"> Contato <span class="sr-only">(current)</span></a>
       				</li>
-      				<li class="nav-item">
-      					<a class="nav-link" href="/logout"> Logout <span class="sr-only">(current)</span></a>
-      				</li>
+      				
     			</ul>	
 			</div>
 		</nav><p>
@@ -57,6 +59,7 @@
 			<table class="table table-striped text-center rounded"">
 				<thead>
 					<tr class="table-active" style="font-family: Consolas; font-size: 20">
+						<th> Codigo </th>
 						<th> Carro </th>
 						<th> Diária </th>
 						<th> Preço </th>
@@ -66,13 +69,14 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="aluga in listaAluga" style="font-family: Consolas; font-size: 18">
+						<td> {{aluga.cod_aluga}} </td>
 						<td> {{aluga.carro}} </td>
 						<td> {{aluga.dia}} </td>
-						<td> {{aluga.preco}} </td>
+						<td> {{aluga.diaria*aluga.dia}} </td>
 						<td> <a href="#" 
-								ng-click="preparaAtualizacaoCompra(aluga.placa)">
+								ng-click="preparaAtualizacaoCompra(aluga.cod_aluga)">
 							<button type="button" class="badge badge-pill badge-dark">Editar</button> </a> </td>
-						<td> <a href="#" ng-click="removeCompra(aluga.placa)">  
+						<td> <a href="#" ng-click="removeCompra(aluga.cod_aluga)">  
 							<button type="button" class="badge badge-pill badge-dark">Remover</button> </a> 
 						</td> 
 					</tr>
@@ -90,12 +94,11 @@
 				</div>
 			</p>
 			<form class="form-horizontal">
-				
-				<div class="form-row">
+				<div class="form-row" data-ng-init="consulta()">
 					<label class="control-label col-sm-4"> <h5>Carros Disponíveis</h5> </label>
 					<div class="col-sm-6"> 
-						<select class="form-control" ng-model="aluga.placa" ng-value="aluga.placa == ''? aluga.placa : ''">
-							<option ng-repeat="carro in listaCarros" value="{{carro.placa}}"> {{carro.carro}} </option>
+						<select class="form-control" ng-model="aluga.cod_carro">
+							<option ng-repeat="carro in listaCarros" ng-value="{{carro.cod_carro}}"> {{carro.carro}} </option>
 						</select> 
 					</div>
 				</div><p>
@@ -112,7 +115,7 @@
 					</div>
 				</div>
 				<div>
-					<img width="560px" height="255px" src="/front/imagens/banner1.png"/>
+					<!--img width="560px" height="255px" src="/front/imagens/banner1.png"/-->
 				</div>
 			</form>
 		</div>

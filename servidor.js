@@ -117,13 +117,14 @@ app.get('/logout',function(req,res){
 
 });
 // cria rota para consulta em uma tabela do banco de dados
-app.get('/consulta/:email', function (req, res){
+app.get('/consulta', function (req, res){
+
 	// conecta no banco a partir do canal
 	canal.connect(function(erro, conexao, feito){
 		if (erro){ // ocorreu um erro
 			return console.error('erro ao conectar no banco', erro);
 		}
-		var sql = 'select * from tb_usuario where email = \'' + req.params.email + '\'';
+		var sql = 'select * from tb_carro order by 1';
 		console.log(sql);
 		conexao.query(sql, function(erro, resultado){
 			feito(); // libera a conexão
@@ -134,15 +135,16 @@ app.get('/consulta/:email', function (req, res){
 		});
 	});
 });
-app.get('/consultaCompra', function (req, res){
+app.get('/consultaCompra/:email', function (req, res){
 	// conecta no banco a partir do canal
 	canal.connect(function(erro, conexao, feito){
 		if (erro){ // ocorreu um erro
 			return console.error('erro ao conectar no banco', erro);
 		}
-		var sql = 'select a.*,c.carro from tb_aluga a '
-			sql += 'inner join tb_carro c on(a.placa = c.placa) '
-			sql += 'order by a.cod_aluga';
+		var sql = 'select a.*,c.carro,c.diaria from tb_aluga a '
+			sql += 'inner join tb_carro c on(a.cod_carro = c.cod_carro) '
+			sql += 'where email = \''  + req.params.email + '\' order by a.cod_aluga';
+			console.log(sql);
 		conexao.query(sql, function(erro, resultado){
 			feito(); // libera a conexão
 			if (erro){
@@ -160,9 +162,8 @@ app.post('/insere', function (req, res){
 		if (erro){ // ocorreu um erro
 			return console.error('erro ao conectar no banco', erro);
 		}
-		var sql = 'insert into tb_carro values ( \'' + req.body.placa + 
-				  '\',\'' + req.body.carro + 
-				  '\',' + req.body.diaria + ')';
+		var sql = 'INSERT INTO tb_carro VALUES (default, \'' + req.body.carro +
+				  '\', ' + req.body.qtde + ', ' + req.body.diaria + ');';
 		console.log(sql);
 		conexao.query(sql, function(erro, resultado){
 			feito(); // libera a conexão
@@ -177,13 +178,13 @@ app.post('/insere', function (req, res){
 app.post('/insereCompra', function (req, res){
 	// conecta no banco a partir do canal
 	canal.connect(function(erro, conexao, feito){
+		console.log("x " + req.body.email);
 		if (erro){ // ocorreu um erro
 			return console.error('erro ao conectar no banco', erro);
 		}
-		var sql = 'insert into tb_aluga values ( \'' + req.body.nome + 
-				  '\', \''+ req.body.telefone + 
-				  '\',\'' + req.body.placa + 
-				  '\', '+ req.body.dia + ')';
+
+		var sql = 'insert into tb_aluga values (default, \'' + req.body.email + 
+				'\', ' + req.body.cod_carro + ', ' + req.body.dia + ')';
 		console.log(sql);
 		conexao.query(sql, function(erro, resultado){
 			feito(); // libera a conexão
@@ -196,13 +197,13 @@ app.post('/insereCompra', function (req, res){
 });
 
 // cria rota para consulta em uma tabela do banco de dados
-app.delete('/remove/:placa', function (req, res){
+app.delete('/remove/:cod_carro', function (req, res){
 	// conecta no banco a partir do canal
 	canal.connect(function(erro, conexao, feito){
 		if (erro){ // ocorreu um erro
 			return console.error('erro ao conectar no banco', erro);
 		}
-		var sql = 'delete from tb_carro where placa = \'' + req.params.placa+'\' ';
+		var sql = 'delete from tb_carro where cod_carro = \'' + req.params.cod_carro +'\' ';
 		console.log(sql);
 		conexao.query(sql, function(erro, resultado){
 			feito(); // libera a conexão
@@ -214,14 +215,15 @@ app.delete('/remove/:placa', function (req, res){
 	});
 });
 
-app.delete('/removeCompra/:placa', function (req, res){
+app.delete('/removeCompra/:cod_carro', function (req, res){
 	// conecta no banco a partir do canal
 	canal.connect(function(erro, conexao, feito){
 		if (erro){ // ocorreu um erro
 			return console.error('erro ao conectar no banco', erro);
 		}
-		var sql = 'delete from tb_aluga where placa = \'' + req.params.placa + '\'';
+		var sql = 'delete from tb_aluga where cod_aluga = \'' + req.params.cod_carro + '\'';
 		console.log(sql);
+
 		conexao.query(sql, function(erro, resultado){
 			feito(); // libera a conexão
 			if (erro){
@@ -241,7 +243,7 @@ app.put('/atualiza', function (req, res){
 		}
 		var sql = 'update tb_carro set carro = \'' + req.body.carro + 
 				'\', diaria = ' + req.body.diaria + 
-				'where  placa =  \'' + req.body.placa + '\'';
+				'where  cod_carro =  \'' + req.body.cod_carro + '\'';
 		conexao.query(sql, function(erro, resultado){
 			feito(); // libera a conexão
 			if (erro){
@@ -258,10 +260,8 @@ app.put('/atualizaCompra', function (req, res){
 		if (erro){ // ocorreu um erro
 			return console.error('erro ao conectar no banco', erro);
 		}
-		var sql = 'update tb_aluga set nome = \'' + req.body.nome + 
-				'\', telefone = \'' + req.body.telefone +
-				'\', dia = ' + req.body.dia + 
-				' where placa =  \'' + req.body.placa + '\'';
+		var sql = 'update tb_aluga set dia = ' + req.body.dia + 
+				' where cod_carro =  \'' + req.body.cod_carro + '\'';
 		conexao.query(sql, function(erro, resultado){
 			feito(); // libera a conexão
 			if (erro){

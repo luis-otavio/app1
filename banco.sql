@@ -1,13 +1,23 @@
-﻿CREATE TABLE tb_carro (
-placa		VARCHAR(8),
+﻿CREATE SEQUENCE carro_cod_seq;
+
+CREATE TABLE tb_carro (
+cod_carro	INTEGER DEFAULT NEXTVAL('carro_cod_seq'),
 carro		VARCHAR(30),
-diaria		NUMERIC,
-CONSTRAINT pk_car_placa PRIMARY KEY(placa));
+qtde		INTEGER,
+diaria		NUMERIC(6,2),
+CONSTRAINT pk_car_cod_carro PRIMARY KEY(cod_carro)
+);
+
+ALTER TABLE tb_carro ADD COLUMN qtde INTEGER;
+
+SELECT NEXTVAL('carro_cod_seq');
+
+DROP TABLE tb_carro;
 
 INSERT INTO tb_carro
 VALUES
-('JDR5678', 'BMW X6', 125),
-('NPM1253', 'Corolla',59);
+(default, 'BMW X6', 1, 125),
+(default, 'Corolla',5, 59);
 
 select * from tb_aluga order by 3
 
@@ -21,8 +31,12 @@ VALUES
 
 DROP TABLE tb_aluga;
 
+CREATE SEQUENCE aluga_id_seq;
+
+SELECT NEXTVAL('aluga_id_seq');
+
 CREATE TABLE tb_aluga(
-cod_aluga	INTEGER,
+cod_aluga	INTEGER DEFAULT NEXTVAL('aluga_id_seq'),
 email		VARCHAR(50),
 placa		VARCHAR(8),
 dia		INTEGER,
@@ -36,9 +50,10 @@ FROM tb_aluga;
 
 
 
-INSERT INTO tb_aluga
+
+INSERT INTO tb_aluga(email, placa, dia) 
 VALUES
-(1, 'vc@vc.com.br', 'JDR5678', 3);
+('vc@vc.com.br', 'ABC1234', 50);
 
 CREATE TABLE tb_usuario(
 nome		VARCHAR(60) CONSTRAINT nn_nome_usuario NOT NULL,
@@ -63,3 +78,16 @@ SELECT *
 FROM tb_usuario;
 
 DROP TABLE tb_usuario;
+
+select MD5 ('teste');
+CREATE TABLE teste(
+cod_usu		INTEGER,
+senha		VARCHAR(32)
+);
+
+INSERT INTO teste
+VALUES
+(1, md5('senha'));
+
+select *
+from teste;
